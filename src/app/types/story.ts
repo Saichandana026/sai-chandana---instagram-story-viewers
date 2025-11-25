@@ -11,3 +11,8 @@ export interface UserStory {
   profilePic: string;
   stories: StoryContent[];
 }
+export type Story = {
+  id: string;
+  type: string;
+  mediaUrl: string;
+};
