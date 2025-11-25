@@ -2,7 +2,8 @@
 
 import { useState, useEffect } from "react";
 import StoryProgress from "./StoryProgress";
-import { UserStory } from "@/types/story";
+import { UserStory } from "../types/story";
+
 
 interface Props {
   user: UserStory;
