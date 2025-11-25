@@ -9,7 +9,7 @@ export interface StoryContent {
 export interface UserStory {
   userId: string;
   username: string;
-  avatarUrl: string; 
+  profilePic: string;
   stories: StoryContent[];
 }
 export type Story = {
