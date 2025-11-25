@@ -1,9 +1,9 @@
-import { UserStory } from "@/types/story";
+import { UserStory } from "../types/story";
 
 export const stories: UserStory[] = [
   {
     userId: "u1",
-    username: "alex",
+    username: "Sohail",
     avatarUrl: "/avatars/user1.jpg",
     stories: [
       {
