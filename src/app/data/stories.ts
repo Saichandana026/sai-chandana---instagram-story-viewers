@@ -3,8 +3,8 @@ import { UserStory } from "../types/story";
 export const stories: UserStory[] = [
   {
     userId: "u1",
-    username: "Sohail",
-    avatarUrl: "/avatars/user1.jpg",
+    username: "alex",
+    profilePic: "/avatars/user1.jpg",   // <-- fixed
     stories: [
       {
         id: "s1",
@@ -21,3 +21,4 @@ export const stories: UserStory[] = [
     ]
   }
 ];
+
