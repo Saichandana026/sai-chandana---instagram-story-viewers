@@ -3,44 +3,31 @@
 import Image from "next/image";
 import { useState } from "react";
 import StoryViewer from "./StoryViewer";
-
-// Types for strong typing
-type Story = {
-  id: string;
-  type: string;
-  mediaUrl: string;
-};
-
-type StoryUser = {
-  userId: string;
-  username: string;
-  profilePic: string;
-  stories: Story[];
-};
-
-const storiesData: StoryUser[] = [
-  {
-    userId: "1",
-    username: "Sohail",
-    profilePic: "/avatars/user1.jpg",
-    stories: [
-      { id: "s1", type: "image", mediaUrl: "/media/story1.jpg" },
-      { id: "s2", type: "image", mediaUrl: "/media/story2.jpg" },
-    ],
-  },
-  {
-    userId: "2",
-    username: "Chandana",
-    profilePic: "/avatars/user2.jpg",
-    stories: [
-      { id: "s1", type: "image", mediaUrl: "/media/story2.jpg" },
-      { id: "s2", type: "image", mediaUrl: "/media/story1.jpg" },
-    ],
-  },
-];
+import { UserStory } from "../types/story"; // use the shared interface
 
 export default function StoriesStrip() {
-  const [selectedStory, setSelectedStory] = useState<StoryUser | null>(null);
+  const [selectedStory, setSelectedStory] = useState<UserStory | null>(null);
+
+  const storiesData: UserStory[] = [
+    {
+      userId: "1",
+      username: "Sohail",
+      profilePic: "/avatars/user1.jpg",
+      stories: [
+        { id: "s1", type: "image", mediaUrl: "/media/story1.jpg" },
+        { id: "s2", type: "image", mediaUrl: "/media/story2.jpg" },
+      ],
+    },
+    {
+      userId: "2",
+      username: "Chandana",
+      profilePic: "/avatars/user2.jpg",
+      stories: [
+        { id: "s1", type: "image", mediaUrl: "/media/story2.jpg" },
+        { id: "s2", type: "image", mediaUrl: "/media/story1.jpg" },
+      ],
+    },
+  ];
 
   return (
     <>
@@ -65,7 +52,6 @@ export default function StoriesStrip() {
         ))}
       </div>
 
-      {/* Show Story Viewer When Clicked */}
       {selectedStory && (
         <StoryViewer user={selectedStory} onClose={() => setSelectedStory(null)} />
       )}
