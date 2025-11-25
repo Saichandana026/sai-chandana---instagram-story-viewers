@@ -4,7 +4,21 @@ import Image from "next/image";
 import { useState } from "react";
 import StoryViewer from "./StoryViewer";
 
-const storiesData = [
+// Types for strong typing
+type Story = {
+  id: string;
+  type: string;
+  mediaUrl: string;
+};
+
+type StoryUser = {
+  userId: string;
+  username: string;
+  profilePic: string;
+  stories: Story[];
+};
+
+const storiesData: StoryUser[] = [
   {
     userId: "1",
     username: "Sohail",
@@ -26,7 +40,7 @@ const storiesData = [
 ];
 
 export default function StoriesStrip() {
-  const [selectedStory, setSelectedStory] = useState(null);
+  const [selectedStory, setSelectedStory] = useState<StoryUser | null>(null);
 
   return (
     <>
@@ -53,10 +67,7 @@ export default function StoriesStrip() {
 
       {/* Show Story Viewer When Clicked */}
       {selectedStory && (
-        <StoryViewer
-          user={selectedStory}
-          onClose={() => setSelectedStory(null)}
-        />
+        <StoryViewer user={selectedStory} onClose={() => setSelectedStory(null)} />
       )}
     </>
   );
