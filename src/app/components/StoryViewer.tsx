@@ -1,22 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import { useState, useEffect } from "react";
 import StoryProgress from "./StoryProgress";
-
-// Create Type Here
-type Story = {
-  id: string;
-  type: string;
-  mediaUrl: string;
-};
-
-type UserStory = {
-  userId: string;
-  username: string;
-  profilePic: string;
-  stories: Story[];
-};
+import { UserStory } from "@/types/story";
 
 interface Props {
   user: UserStory;
@@ -26,34 +12,74 @@ interface Props {
 export default function StoryViewer({ user, onClose }: Props) {
   const [current, setCurrent] = useState(0);
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      if (current < user.stories.length - 1) {
-        setCurrent((prev) => prev + 1);
-      } else {
-        onClose();
-      }
-    }, 3000);
+  const nextStory = () => {
+    if (current < user.stories.length - 1) {
+      setCurrent((prev) => prev + 1);
+    } else {
+      onClose(); // close viewer at end
+    }
+  };
 
-    return () => clearInterval(timer);
-  }, [current, user.stories.length, onClose]);
+  const previousStory = () => {
+    if (current > 0) {
+      setCurrent((prev) => prev - 1);
+    }
+  };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      nextStory();
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, [current]);
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-50">
-      <button className="absolute top-4 right-4 text-white text-xl" onClick={onClose}>
+    <div className="fixed inset-0 bg-black z-50 flex justify-center items-center">
+      {/* Top Progress Bar */}
+      <div className="absolute top-4 w-full max-w-md z-50">
+        <StoryProgress count={user.stories.length} current={current} />
+      </div>
+
+      {/* Tap Areas */}
+      <div className="absolute inset-0 flex z-40">
+        <button
+          aria-label="Previous Story"
+          className="w-1/2 h-full"
+          onClick={previousStory}
+        ></button>
+        <button
+          aria-label="Next Story"
+          className="w-1/2 h-full"
+          onClick={nextStory}
+        ></button>
+      </div>
+
+      {/* Story Content */}
+      <div className="relative z-30 flex justify-center items-center">
+        {user.stories[current].type === "image" ? (
+          <img
+            src={user.stories[current].mediaUrl}
+            className="max-h-screen max-w-full object-contain"
+          />
+        ) : (
+          <video
+            src={user.stories[current].mediaUrl}
+            autoPlay
+            muted
+            controls={false}
+            className="max-h-screen max-w-full object-contain"
+          />
+        )}
+      </div>
+
+      {/* Close Button */}
+      <button
+        onClick={onClose}
+        className="absolute top-4 right-4 text-white text-2xl font-bold z-50"
+      >
         ✕
       </button>
-
-      <div className="w-[350px] h-[600px] relative">
-        <StoryProgress total={user.stories.length} current={current} />
-
-        <Image
-          src={user.stories[current].mediaUrl}
-          alt="story"
-          fill
-          className="object-cover rounded-lg"
-        />
-      </div>
     </div>
   );
 }
